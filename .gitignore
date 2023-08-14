@@ -6,3 +6,5 @@
 /.pytest_cache/
 /build/
 /dist/
+/.coverage
+/coverage.xml

@@ -46,8 +46,11 @@ jobs:
     - name: Install project
       run: poetry install --no-interaction
 
-    - name: Run tests
-      run: |
-        source .venv/bin/activate
-        pytest tests/
-        coverage report
+    - name: Test with pytest
+      run: poetry run pytest --cov=garlic --cov-report=xml
+
+    - name: Upload coverage
+      uses: codecov/codecov-action@v3
+      with:
+        file: ./coverage.xml
+        fail_ci_if_error: true
