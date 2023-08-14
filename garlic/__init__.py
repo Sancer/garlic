@@ -1,12 +1,13 @@
-
-from garlic.base_event import BaseEvent
-from garlic.event_dispatcher import EventDispatcher
-from garlic.event_handler import EventHandler
-from garlic.subscriber import Subscriber
+from .base_event import BaseEvent
+from .event_dispatcher import EventDispatcher
+from .event_handler import EventHandler
+from .subscriber import Subscriber
+from .garlic import Garlic
 
 __all__ = [
     "BaseEvent",
     "EventDispatcher",
     "EventHandler",
     "Subscriber",
+    "Garlic",
 ]
