@@ -1,5 +1,5 @@
 from unittest import TestCase
-from unittest.mock import Mock, MagicMock
+from unittest.mock import Mock
 
 from garlic import EventHandler, BaseEvent, EventDispatcher, Subscriber
 
