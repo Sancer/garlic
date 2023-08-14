@@ -1,10 +1,11 @@
 [tool.poetry]
 name = "garlic"
-version = "0.1.0"
+version = "0.1.1"
 description = "Create a event driven architecture with garlic improve your development experience"
 authors = ["Uriel Reina Abadía <urielreina@gmail.com>"]
 license = "MIT"
 readme = "README.md"
+repository = "https://github.com/Sancer/garlic"
 
 [tool.poetry.dependencies]
 python = "^3.9"
