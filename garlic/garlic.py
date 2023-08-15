@@ -1,12 +1,12 @@
 from typing import Callable
 
-from garlic import EventHandler, EventDispatcher
+from garlic import EventHandler, EventDispatcher, BaseEvent
 from garlic.types import DecoratedCallable
 
 
 class Garlic:
-    def __init__(self, config):
-        self.config = config
+    def __init__(self, config: dict = None):
+        self.config = config or {}
 
         self._event_handler = EventHandler()
         self._event_dispatcher = EventDispatcher(event_handler=self._event_handler)
@@ -20,3 +20,6 @@ class Garlic:
             return func
 
         return decorator
+
+    def publish(self, event: BaseEvent):
+        self._event_dispatcher(event=event)
