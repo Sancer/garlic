@@ -1,13 +1,13 @@
-from dataclasses import dataclass
 from datetime import datetime
 from uuid import UUID, uuid4
 
+from pydantic import BaseModel
 
-@dataclass
-class BaseEvent:
+
+class BaseEvent(BaseModel):
     id: UUID = uuid4()
     created_at: datetime = datetime.now()
-    version: str = "1.0"
+    version: str = "1"
     payload: dict = None
 
 

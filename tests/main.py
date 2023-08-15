@@ -5,7 +5,8 @@ app = Garlic(config={})
 
 
 class TestEvent(BaseEvent):
-    pass
+    fizz: str
+    other: str = "default"
 
 
 @app.subscribe(TestEvent)
