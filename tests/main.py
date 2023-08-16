@@ -9,6 +9,8 @@ class TestEvent(BaseEvent):
     other: str = "default"
 
 
-@app.subscribe(TestEvent)
 def subscriber(event: TestEvent):
     pass
+
+
+
