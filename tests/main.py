@@ -1,7 +1,7 @@
 from garlic import Garlic, BaseEvent
 
 
-app = Garlic(config={})
+app = Garlic()
 
 
 class TestEvent(BaseEvent):

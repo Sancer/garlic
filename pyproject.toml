@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "garlic"
-version = "0.2.0"
+version = "0.3.0"
 description = "Create a event driven architecture with garlic improve your development experience"
 authors = ["Uriel Reina Abadía <urielreina@gmail.com>"]
 license = "MIT"
