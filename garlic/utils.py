@@ -1,5 +1,5 @@
 import inspect
-from typing import Callable, Any, ForwardRef
+from typing import Any, Callable, ForwardRef
 
 
 def get_typed_annotation(annotation: Any) -> Any:

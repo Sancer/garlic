@@ -1,6 +1,6 @@
 from unittest import TestCase, mock
 
-from garlic import EventHandler, BaseEvent, EventDispatcher
+from garlic import BaseEvent, EventDispatcher, EventHandler
 
 
 def subscriber(event: BaseEvent):
@@ -8,7 +8,6 @@ def subscriber(event: BaseEvent):
 
 
 class TestBase(TestCase):
-
     def setUp(self):
         self.event_handler = EventHandler()
         self.event_dispatcher = EventDispatcher(event_handler=self.event_handler)
@@ -33,7 +32,9 @@ class TestBase(TestCase):
         subscriber_mock.assert_called_with(event)
         self.assertEqual(subscriber_mock.call_count, 2)
 
-    def test_subscription_called_twice_with_different_events_and_different_subscriptions(self):
+    def test_subscription_called_twice_with_different_events_and_different_subscriptions(
+        self,
+    ):
         subscriber_mock = mock.create_autospec(subscriber)
         self.event_handler.subscribe(subscriber=subscriber_mock)
         event = BaseEvent()
@@ -72,7 +73,9 @@ class TestBase(TestCase):
         self.assertEqual(subscriber_mock.call_count, 2)
         self.assertEqual(subscriber_mock2.call_count, 2)
 
-    def test_two_subscriptions_called_with_different_events_and_different_subscriptions(self):
+    def test_two_subscriptions_called_with_different_events_and_different_subscriptions(
+        self,
+    ):
         subscriber_mock = mock.create_autospec(subscriber)
         subscriber_mock2 = mock.create_autospec(subscriber)
         self.event_handler.subscribe(subscriber=subscriber_mock)

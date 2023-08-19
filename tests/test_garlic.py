@@ -1,6 +1,6 @@
 from unittest import mock
 
-from tests.main import app, TestEvent, subscriber
+from tests.main import TestEvent, app, subscriber
 
 
 def test_subscriber_called():

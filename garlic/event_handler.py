@@ -1,4 +1,4 @@
-from typing import Type, Callable
+from typing import Callable
 
 from .base_event import BaseEvent
 from .utils import get_typed_signature
@@ -39,7 +39,6 @@ class EventHandler:
         event_class = signature_params["event"].annotation
         return event_class.__name__
 
-    def get_channel_name(self, event_name:str) -> str:
+    def get_channel_name(self, event_name: str) -> str:
         channel_name = f"{self._channel_path}{self._channel_delimiter}{event_name}"
         return channel_name
-

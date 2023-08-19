@@ -1,5 +1,4 @@
-from garlic import Garlic, BaseEvent
-
+from garlic import BaseEvent, Garlic
 
 app = Garlic()
 
@@ -11,6 +10,3 @@ class TestEvent(BaseEvent):
 
 def subscriber(event: TestEvent):
     pass
-
-
-

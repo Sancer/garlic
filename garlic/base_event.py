@@ -9,5 +9,3 @@ class BaseEvent(BaseModel):
     created_at: datetime = datetime.now()
     version: str = "1"
     payload: dict = None
-
-
