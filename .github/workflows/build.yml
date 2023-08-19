@@ -1,13 +1,8 @@
-# This workflow will install Python dependencies, run tests and lint with a variety of Python versions
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python
-
 name: build
 
 on:
   push:
-    branches: [ "main" ]
   pull_request:
-    branches: [ "main" ]
 
 jobs:
   validate:
@@ -45,15 +40,34 @@ jobs:
       - name: Install project
         run: poetry install --no-interaction
 
-      - name: Test with pytest
-        run: poetry run pytest --cov=garlic --cov-report=xml
+      - name: Run pre-commit hooks
+        run: poetry run pre-commit run --all-files
 
   build-publish:
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     needs: validate
     steps:
       - uses: actions/checkout@v3
+      - name: Check if version already exists on PyPI
+        id: check_version
+        run: |
+          PACKAGE_NAME=$(awk -F' = ' '/^name/ { gsub(/[ \"]/, "", $2); print $2 }' pyproject.toml)
+          PACKAGE_VERSION=$(awk -F' = ' '/^version/ { gsub(/[ \"]/, "", $2); print $2 }' pyproject.toml)
+
+          echo "Checking version $PACKAGE_VERSION of package $PACKAGE_NAME on PyPI..."
+
+          pip install ${PACKAGE_NAME}==${PACKAGE_VERSION} &> /dev/null
+
+          if [ $? -eq 0 ]; then
+            echo "Version $PACKAGE_VERSION of package $PACKAGE_NAME already exists on PyPI!"
+            echo "::set-output name=exists::true"
+          else
+            echo "Version $PACKAGE_VERSION of package $PACKAGE_NAME does not exist on PyPI."
+            echo "::set-output name=exists::false"
+          fi
       - name: Build and publish to pypi
+        if: steps.check_version.outputs.exists == 'false'
         uses: JRubics/poetry-publish@v1.17
         with:
           pypi_token: ${{ secrets.PYPI_TOKEN }}
