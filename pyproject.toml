@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "garlic"
-version = "0.3.0"
+version = "0.4.0"
 description = "Create a event driven architecture with garlic improve your development experience"
 authors = ["Uriel Reina Abadía <urielreina@gmail.com>"]
 license = "MIT"
@@ -15,6 +15,7 @@ pydantic = "^2.1.1"
 [tool.poetry.group.dev.dependencies]
 pytest = "^7.4.0"
 pytest-cov = "^4.1.0"
+pre-commit = "^3.3.3"
 
 [build-system]
 requires = ["poetry-core"]
