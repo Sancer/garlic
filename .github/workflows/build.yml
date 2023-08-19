@@ -61,11 +61,12 @@ jobs:
 
           if [ $? -eq 0 ]; then
             echo "Version $PACKAGE_VERSION of package $PACKAGE_NAME already exists on PyPI!"
-            echo "::set-output name=exists::true"
+            echo "exists=true" >> $GITHUB_OUTPUT
           else
             echo "Version $PACKAGE_VERSION of package $PACKAGE_NAME does not exist on PyPI."
-            echo "::set-output name=exists::false"
+            echo "exists=false" >> $GITHUB_OUTPUT
           fi
+
       - name: Build and publish to pypi
         if: steps.check_version.outputs.exists == 'false'
         uses: JRubics/poetry-publish@v1.17
