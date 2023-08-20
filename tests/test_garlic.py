@@ -1,6 +1,20 @@
 from unittest import mock
 
+from garlic import BaseEvent, EventBus, Garlic
 from tests.main import TestEvent, app, subscriber
+
+
+def test_subscribe_function_to_event_bus():
+    event_bus = EventBus()
+    garlic = Garlic(event_bus=event_bus)
+
+    @garlic.subscribe()
+    def subscriber(event: BaseEvent):
+        pass
+
+    assert (
+        subscriber in event_bus._subscriptions[event_bus.get_channel_name("BaseEvent")]
+    )
 
 
 def test_subscriber_called():

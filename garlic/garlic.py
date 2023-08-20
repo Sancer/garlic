@@ -28,5 +28,10 @@ class Garlic:
     def emit(self, event: BaseEvent):
         self._event_bus(event=event)
 
+    def __call__(self, event: BaseEvent):
+        self.emit(event=event)
+
     def _bootstrap(self):
-        self._event_bus = self._event_bus or EventBus()
+        self._event_bus = self._event_bus or EventBus(
+            channel_path=self._channel_path, channel_delimiter=self._channel_delimiter
+        )
