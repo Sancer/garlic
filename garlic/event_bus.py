@@ -1,17 +1,24 @@
 from typing import Callable
 
 from .base_event import BaseEvent
+from .protocol import Protocol
 from .utils import get_typed_signature
 
 
-class EventHandler:
+class EventNotProvidedError(Exception):
+    message = "Subscriber should have an event parameter"
+
+
+class EventBus:
+    protocol: Protocol = Protocol.MEMORY
+
     def __init__(self, channel_path: str = None, channel_delimiter: str = None) -> None:
         self._channel_path = channel_path
         self._channel_delimiter = channel_delimiter
         self._subscriptions: dict[str, list[Callable]] = {}
 
     def subscribe(self, subscriber: Callable):
-        event_name = self.get_subscriber_event_name(subscriber)
+        event_name = self._get_subscriber_event_name(subscriber)
         channel_name = self.get_channel_name(event_name=event_name)
 
         if channel_name not in self._subscriptions:
@@ -29,12 +36,12 @@ class EventHandler:
     def __call__(self, event: BaseEvent):
         self.send(event)
 
-    @staticmethod
-    def get_subscriber_event_name(subscriber: Callable) -> str:
+    def _get_subscriber_event_name(self, subscriber: Callable) -> str:
         signature = get_typed_signature(subscriber)
         signature_params = signature.parameters
 
-        assert "event" in signature_params, "Subscriber should have an event parameter"
+        if "event" not in signature_params:
+            raise EventNotProvidedError()
 
         event_class = signature_params["event"].annotation
         return event_class.__name__

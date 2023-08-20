@@ -51,7 +51,7 @@ def subscribe_to_newsletter(event: CustomerRegisteredEvent):
 @api.route('customer/register/')
 def register_user(user: dict):
     # .... business logics  ....
-    bus.publish(CustomerRegisteredEvent(
+    bus.emit(CustomerRegisteredEvent(
         name=user['name']
     ))
     # ... http response ...

@@ -8,7 +8,7 @@ def test_subscriber_called():
     app.subscribe()(subscriber_mock)
 
     event = TestEvent(fizz="buzz")
-    app.publish(event=event)
+    app.emit(event=event)
 
     subscriber_mock.assert_called_with(event)
 
@@ -18,7 +18,7 @@ def test_publish_and_subscriber_called():
     app.subscribe()(subscriber_mock)
 
     event = TestEvent(fizz="buzz")
-    app.publish(event=event)
+    app.emit(event=event)
 
     subscriber_mock.assert_called_with(event)
 
@@ -30,7 +30,7 @@ def test_publish_with_two_subscribers():
     app.subscribe()(subscriber2_mock)
 
     event = TestEvent(fizz="buzz")
-    app.publish(event=event)
+    app.emit(event=event)
 
     subscriber_mock.assert_called_with(event)
     subscriber2_mock.assert_called_with(event)
@@ -45,9 +45,9 @@ def test_publish_with_two_subscribers_and_two_events():
     app.subscribe()(subscriber2_mock)
 
     event = TestEvent(fizz="buzz")
-    app.publish(event=event)
+    app.emit(event=event)
     event = TestEvent(fizz="buzz")
-    app.publish(event=event)
+    app.emit(event=event)
 
     assert subscriber_mock.call_count == 2
     assert subscriber2_mock.call_count == 2
