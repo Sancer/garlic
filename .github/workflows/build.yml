@@ -52,19 +52,20 @@ jobs:
       - name: Check if version already exists on PyPI
         id: check_version
         run: |
-          PACKAGE_NAME=$(awk -F' = ' '/^name/ { gsub(/[ \"]/, "", $2); print $2 }' pyproject.toml)
-          PACKAGE_VERSION=$(awk -F' = ' '/^version/ { gsub(/[ \"]/, "", $2); print $2 }' pyproject.toml)
+          PACKAGE_NAME=$(awk -F' = ' '/^name/ { gsub(/[" ]/, "", $2); print $2 }' pyproject.toml)
+          PACKAGE_VERSION=$(awk -F' = ' '/^version/ { gsub(/[" ]/, "", $2); print $2 }' pyproject.toml)
+
 
           echo "Checking version $PACKAGE_VERSION of package $PACKAGE_NAME on PyPI..."
 
-          pip install ${PACKAGE_NAME}==${PACKAGE_VERSION} &> /dev/null
+          pip install ${PACKAGE_NAME}==${PACKAGE_VERSION} &> /dev/null || true
 
           if [ $? -eq 0 ]; then
             echo "Version $PACKAGE_VERSION of package $PACKAGE_NAME already exists on PyPI!"
-            echo "exists=true" >> $GITHUB_OUTPUT
+            echo "::set-output name=exists::true"
           else
             echo "Version $PACKAGE_VERSION of package $PACKAGE_NAME does not exist on PyPI."
-            echo "exists=false" >> $GITHUB_OUTPUT
+            echo "::set-output name=exists::false"
           fi
 
       - name: Build and publish to pypi
