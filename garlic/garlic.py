@@ -1,4 +1,4 @@
-from typing import Callable
+from typing import Callable, Optional
 
 from garlic import BaseEvent, EventBus
 from garlic.types import DecoratedCallable
@@ -7,14 +7,15 @@ from garlic.types import DecoratedCallable
 class Garlic:
     def __init__(
         self,
-        channel_path: str = None,
+        channel_path: Optional[str] = None,
         channel_delimiter: str = ".",
-        event_bus: EventBus = None,
+        event_bus: Optional[EventBus] = None,
     ) -> None:
         self._channel_path = channel_path
         self._channel_delimiter = channel_delimiter
-        self._event_bus = event_bus
-        self._bootstrap()
+        self._event_bus = event_bus or EventBus(
+            channel_path=self._channel_path, channel_delimiter=self._channel_delimiter
+        )
 
     def subscribe(self) -> Callable[[DecoratedCallable], DecoratedCallable]:
         def decorator(func: DecoratedCallable) -> DecoratedCallable:
@@ -25,13 +26,8 @@ class Garlic:
 
         return decorator
 
-    def emit(self, event: BaseEvent):
+    def emit(self, event: BaseEvent) -> None:
         self._event_bus(event=event)
 
-    def __call__(self, event: BaseEvent):
+    def __call__(self, event: BaseEvent) -> None:
         self.emit(event=event)
-
-    def _bootstrap(self):
-        self._event_bus = self._event_bus or EventBus(
-            channel_path=self._channel_path, channel_delimiter=self._channel_delimiter
-        )

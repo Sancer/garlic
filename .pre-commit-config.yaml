@@ -14,6 +14,13 @@ repos:
 
 -   repo: local
     hooks:
+    -   id: mypy
+        name: Run mypy
+        entry: mypy garlic
+        language: system
+        types: [python]
+        always_run: true
+        pass_filenames: false
     -   id: pytest
         name: Run pytest
         entry: pytest
