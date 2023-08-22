@@ -1,0 +1,12 @@
+site_name: Garlic
+
+theme:
+  name: "material"
+
+plugins:
+    - search
+    - mkdocstrings
+
+nav:
+  - Garlic Docs: index.md
+  - tutorials.md
