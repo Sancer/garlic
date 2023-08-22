@@ -15,7 +15,7 @@ from garlic import Garlic, BaseEvent
 
 bus = Garlic()
 
-api = FastApi()
+api = FastAPI()
 
 
 class CustomerRegisteredEvent(BaseEvent):

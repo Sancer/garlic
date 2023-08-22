@@ -1,10 +1,14 @@
+import logging
 from typing import Callable, Optional
 
+import anyio
+
 from garlic import BaseEvent, EventBus
+from garlic.base_app import BaseApp
 from garlic.types import DecoratedCallable
 
 
-class Garlic:
+class Garlic(BaseApp):
     def __init__(
         self,
         channel_path: Optional[str] = None,
@@ -16,6 +20,7 @@ class Garlic:
         self._event_bus = event_bus or EventBus(
             channel_path=self._channel_path, channel_delimiter=self._channel_delimiter
         )
+        super().__init__()
 
     def subscribe(self) -> Callable[[DecoratedCallable], DecoratedCallable]:
         def decorator(func: DecoratedCallable) -> DecoratedCallable:
@@ -29,5 +34,5 @@ class Garlic:
     def emit(self, event: BaseEvent) -> None:
         self._event_bus(event=event)
 
-    def __call__(self, event: BaseEvent) -> None:
-        self.emit(event=event)
+    def __call__(self, log_level: int = logging.INFO) -> None:
+        anyio.run(self.run)
